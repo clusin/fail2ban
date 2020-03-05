@@ -1,0 +1,85 @@
+[DEFAULT]
+
+ignoreip = 127.0.0.1/8 73.158.105.63
+
+bantime = 1d
+
+findtime = 5m
+maxretry = 5
+
+backend = auto
+
+usedns = warn
+
+destemail = dan@clusin.com
+
+sendername = Fail2Ban
+
+#
+# ACTIONS
+#
+
+banaction = iptables-multiport
+
+mta = mail
+
+# Default protocol
+protocol = tcp
+
+# Specify chain where jumps would need to be added in iptables-* actions
+chain = INPUT
+
+action = %(action_)s
+
+#
+# JAILS
+#
+
+[nginx-forbidden]  
+enabled  = true
+port     = http,https
+filter   = nginx-forbidden
+maxretry = 1
+logpath  = /var/log/nginx/access.log
+
+[nginx-not-bad]
+enabled  = true
+port     = http,https
+filter   = nginx-not-bad
+logpath  = /var/log/nginx/access.log
+maxretry = 3
+
+[nginx-noproxy]
+enabled  = true
+filter   = nginx-noproxy
+port     = http,https
+logpath  = /var/log/nginx/access.log
+maxretry = 1
+
+[nginx-http-auth]
+enabled = true
+filter  = nginx-http-auth
+port    = http,https
+logpath = /var/log/nginx/error.log
+maxretry = 1
+
+[nginx-botsearch]
+enabled  = true
+filter   = nginx-botsearch
+port     = http,https
+logpath  = /var/log/nginx/error.log
+maxretry = 1
+
+[ssh]
+enabled  = true
+port     = ssh
+filter   = sshd
+logpath  = /var/log/auth.log
+maxretry = 3
+
+[postfix]
+enabled  = true
+port     = smtp,ssmtp,submission
+filter   = postfix
+logpath  = /var/log/mail.log
+
