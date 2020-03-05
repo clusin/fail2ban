@@ -56,6 +56,13 @@ port     = http,https
 logpath  = /var/log/nginx/access.log
 maxretry = 1
 
+[nginx-shellcode]
+enabled  = true
+filter   = nginx-shellcode
+port     = http,https
+logpath  = /var/log/nginx/access.log
+maxretry = 1
+
 [nginx-http-auth]
 enabled = true
 filter  = nginx-http-auth
